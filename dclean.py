@@ -1,5 +1,14 @@
-from PySide6.QtWidgets import QTableView, QApplication, QMainWindow
-from PySide6.QtCore import QAbstractTableModel, Qt, QModelIndex
+import config
+from PySide6.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QStackedWidget
+)
+from PySide6.QtCore import (
+    QAbstractTableModel,
+    Qt,
+    QModelIndex
+)
 import sys
 
 class MainWindow(QMainWindow):
@@ -7,6 +16,15 @@ class MainWindow(QMainWindow):
        super().__init__(*args,**kwargs)
        self.title = "DClean"
        self.resize(800,500)
+
+       self.stack = QStackedWidget()
+
+       # Load the plugins
+       self.loadPlugins()
+    
+    def loadPlugins(self):
+        for plugin in config.PLUGINS:
+            self.stack.addWidget(plugin.main())
 
 if __name__ == "__main__":
 
