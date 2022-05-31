@@ -15,7 +15,9 @@ class SettingsPage(QWidget):
         # Initialize the layout
         self.setUI()
     
+    def setMenus(self):
+        file_menu = self.parent().parent().menuBar().addMenu("Settings")
+    
     def setUI(self):
         words = QLabel(text="Hello World")
         self.pageLayout.addWidget(words)
-        print("module running")
