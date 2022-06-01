@@ -23,7 +23,7 @@ class HomePage(QWidget):
         # Layout
         pageLayout = QGridLayout()
         self.setLayout(pageLayout)
-
+        
 class MainWindow(QMainWindow):
     def __init__(self,*args,**kwargs):
        super().__init__(*args,**kwargs)
@@ -47,6 +47,10 @@ class MainWindow(QMainWindow):
        stack = QStackedWidget()
        self.setCentralWidget(stack)
 
+       # Home page UI
+       self.homePage = HomePage()
+       stack.addWidget(self.homePage)
+
        # Load the plugins
        self.loadPlugins()
     
@@ -54,8 +58,12 @@ class MainWindow(QMainWindow):
         for plugin in config.PLUGINS:
             a = plugin.main()
             self.centralWidget().addWidget(a)
+
             if callable(getattr(a,'setMenus',None)):
                 a.setMenus()
+            
+            if callable(getattr(a,'setHomePageUI',None)):
+                a.setHomePageUI()
 
 if __name__ == "__main__":
 
