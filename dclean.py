@@ -15,6 +15,7 @@ from PySide6.QtGui import (
     QAction, QKeySequence
 )
 import sys
+from qt_material import apply_stylesheet
 
 class HomePage(QWidget):
     def __init__(self,*args,**kwargs):
@@ -87,6 +88,7 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
 
     app = QApplication(sys.argv)
+    apply_stylesheet(app,theme="colors.xml")
 
     window = MainWindow()
     window.show()
