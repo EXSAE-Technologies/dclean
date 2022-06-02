@@ -1,5 +1,5 @@
 import pandas as pd
-from PySide6.QtCore import QAbstractTableModel, Qt, QModelIndex
+from PySide6.QtCore import QAbstractTableModel, Qt, QModelIndex, QPersistentModelIndex
 
 
 class PandasModel(QAbstractTableModel):
@@ -36,7 +36,7 @@ class PandasModel(QAbstractTableModel):
         if not index.isValid():
             return None
 
-        if role == Qt.DisplayRole:
+        if role == Qt.DisplayRole or role == Qt.EditRole:
             return str(self._dataframe.iloc[index.row(), index.column()])
 
         return None
@@ -56,3 +56,11 @@ class PandasModel(QAbstractTableModel):
                 return str(self._dataframe.index[section])
 
         return None
+    
+    def flags(self, index) -> Qt.ItemFlags:
+        return Qt.ItemIsSelectable|Qt.ItemIsEnabled|Qt.ItemIsEditable
+    
+    def setData(self, index, value, role):
+        if role == Qt.EditRole:
+            self._dataframe.iloc[index.row(),index.column()] = value
+            return True
